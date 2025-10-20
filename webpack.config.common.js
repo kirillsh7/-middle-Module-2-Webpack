@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const loader = require('sass-loader')
+
 module.exports = {
 	context: path.resolve(__dirname, 'src'),
 	entry: './index.js',

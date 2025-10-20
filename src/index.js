@@ -1,5 +1,6 @@
 /* global document, Audio */
 import './index.scss'
+
 const menuWeatherSound = document.querySelector('.menuWeatherSound')
 const iconEl = document.querySelectorAll(".icon")
 const volume = document.querySelector('.volumeSound')
@@ -7,7 +8,6 @@ const rain = new Audio('assets/sounds/rain.mp3')
 const summer = new Audio('assets/sounds/summer.mp3')
 const winter = new Audio('assets/sounds/winter.mp3')
 const arrIcon = [...iconEl]
-
 const sound = {
 	"sun": summer,
 	"cloud-rain": rain,

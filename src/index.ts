@@ -1,13 +1,12 @@
-/* global document, Audio */
 import './index.scss'
-
-const menuWeatherSound = document.querySelector('.menuWeatherSound')
-const iconEl = document.querySelectorAll(".icon")
-const volume = document.querySelector('.volumeSound')
+const menuWeatherSound:HTMLDivElement = document.querySelector('.menuWeatherSound') 
+const iconEl = document.querySelectorAll<HTMLImageElement>(".icon") 
+const volume:HTMLDivElement = document.querySelector('.volumeSound')
 const rain = new Audio('assets/sounds/rain.mp3')
 const summer = new Audio('assets/sounds/summer.mp3')
 const winter = new Audio('assets/sounds/winter.mp3')
-const arrIcon = [...iconEl]
+const arrIcon : HTMLImageElement[] = Array.from(iconEl)
+
 const sound = {
 	"sun": summer,
 	"cloud-rain": rain,
@@ -16,7 +15,8 @@ const sound = {
 
 
 
-menuWeatherSound.addEventListener("click", ({ target }) => {
+menuWeatherSound.addEventListener("click", (event: Event): void => {
+   const target = event.target as HTMLElement;
 
 	switch (target.id) {
 		case 'sun':
@@ -35,35 +35,45 @@ menuWeatherSound.addEventListener("click", ({ target }) => {
 	}
 }
 )
-volume.addEventListener('input', (e) => {
-	const volumeValue = e.target.value / 100
+volume.addEventListener('input',  (event: Event): void => {
+	const target = event.target as HTMLInputElement;
+	const volumeValue = Number(target.value) / 100
 	Object.values(sound).forEach(audio => {
 		audio.volume = volumeValue
 	})
 })
 
-function playerMusic(target) {
+function playerMusic(target: HTMLElement): void {
 	arrIcon.forEach((el) => {
 		if (el.id !== target.id) {
 			el.dataset.active = 'false'
 			el.src = `assets/icons/${el.id}.svg`
-			sound[el.id].pause()
+			 const audio = sound[el.id as keyof typeof sound];
+			 if (audio) {
+                audio.pause();
+            }
 		} else {
 			if (el.dataset.active === 'false') {
 				el.dataset.active = 'true'
 				el.src = `assets/icons/pause.svg`
-				sound[el.id].play()
+			 const audio = sound[el.id as keyof typeof sound];
+			 if (audio) {
+                audio.play();
+            }
 			} else {
 				el.src = `assets/icons/${el.id}.svg`
 				el.dataset.active = 'false'
-				sound[el.id].pause()
+				 const audio = sound[el.id as keyof typeof sound];
+			 if (audio) {
+                audio.pause();
+            }
 
 			}
 		}
 	})
 }
 
-function setBackground(bg) {
+function setBackground(bg: string): void {
 	const image = './assets/' + `${bg}.jpg`
 	document.body.style.backgroundImage = `url(${image})`
 }

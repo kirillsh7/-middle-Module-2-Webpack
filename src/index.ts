@@ -44,33 +44,36 @@ volume.addEventListener('input',  (event: Event): void => {
 })
 
 function playerMusic(target: HTMLElement): void {
-	arrIcon.forEach((el) => {
-		if (el.id !== target.id) {
-			el.dataset.active = 'false'
-			el.src = `assets/icons/${el.id}.svg`
-			 const audio = sound[el.id as keyof typeof sound];
-			 if (audio) {
-                audio.pause();
-            }
-		} else {
-			if (el.dataset.active === 'false') {
-				el.dataset.active = 'true'
-				el.src = `assets/icons/pause.svg`
-			 const audio = sound[el.id as keyof typeof sound];
-			 if (audio) {
-                audio.play();
-            }
-			} else {
-				el.src = `assets/icons/${el.id}.svg`
-				el.dataset.active = 'false'
-				 const audio = sound[el.id as keyof typeof sound];
-			 if (audio) {
-                audio.pause();
-            }
+arrIcon.forEach((icon) => {
+const audio = sound[icon.id as keyof typeof sound];
+const isTarget = icon.id === target.id;
+const isActive = icon.dataset.active === 'true';
 
-			}
-		}
-	})
+if (!audio) return;
+	
+if (isTarget) {
+if (isActive) {
+pauseIcon(icon, audio);
+} else {
+playIcon(icon, audio);
+}
+} else {
+pauseIcon(icon, audio);
+}
+});
+}
+
+function playIcon(icon: HTMLImageElement, audio: HTMLAudioElement) {
+icon.dataset.active = 'true';
+icon.src = 'assets/icons/pause.svg';
+audio.currentTime = 0;
+audio.play();
+}
+
+function pauseIcon(icon: HTMLImageElement, audio: HTMLAudioElement) {
+icon.dataset.active = 'false';
+icon.src = `assets/icons/${icon.id}.svg`;
+audio.pause();
 }
 
 function setBackground(bg: string): void {
@@ -79,3 +82,5 @@ function setBackground(bg: string): void {
 }
 
 setBackground('summer-bg')
+
+
